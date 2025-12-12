@@ -48,13 +48,13 @@ export default async function handler(req, res) {
     fs.writeFileSync(tempFilePath, fileBuffer);
     console.log(`✅ Temp file created: ${tempFilePath}`);
 
-    // upload ke tmpfiles.org
+    // upload ke ikram.my.id
     const formData = new FormData();
     formData.append('file', fs.createReadStream(tempFilePath));
 
-    console.log('🚀 Uploading to tmpfiles.org...');
+    console.log('🚀 Uploading to ikram.my.id...');
 
-    const response = await fetch('https://tmpfiles.org/api/v1/upload', {
+    const response = await fetch('https://ikram.my.id/upload/', {
       method: 'POST',
       body: formData,
       headers: formData.getHeaders(),
@@ -64,7 +64,7 @@ export default async function handler(req, res) {
     console.log(`📊 Response status: ${response.status}`);
 
     const responseText = await response.text();
-    console.log(`📄 RAW Response body: ${responseText}`);
+    console.log(`📄 RAW Response: ${responseText}`);
 
     if (!response.ok) {
       console.error(`❌ HTTP Error: ${response.status}`);
@@ -77,39 +77,16 @@ export default async function handler(req, res) {
       console.log('📦 Parsed JSON:', JSON.stringify(data, null, 2));
     } catch (e) {
       console.error('❌ Failed to parse JSON:', e);
-      console.error('Raw response was:', responseText);
       throw new Error(`Invalid JSON response: ${responseText}`);
     }
 
-    // Debug: cek structure response
-    console.log('🔍 Checking response structure...');
-    console.log('data.file:', data.file);
-    console.log('data.file?.url:', data.file?.url);
-    console.log('Full data keys:', Object.keys(data));
-
-    // Try multiple possible locations for URL
-    let fileUrl = null;
-    
-    if (data.file?.url) {
-      fileUrl = data.file.url;
-      console.log('✅ Found URL at data.file.url');
-    } else if (data.url) {
-      fileUrl = data.url;
-      console.log('✅ Found URL at data.url');
-    } else if (data.files && Array.isArray(data.files) && data.files.length > 0) {
-      fileUrl = data.files[0].url;
-      console.log('✅ Found URL at data.files[0].url');
-    } else if (typeof data === 'string' && data.startsWith('https')) {
-      fileUrl = data;
-      console.log('✅ Response is direct URL string');
+    // ikram.my.id response format: { success: true, message: "...", filename: "...", url: "..." }
+    if (!data.success || !data.url) {
+      console.error('❌ Invalid response:', data);
+      throw new Error(data.message || 'Upload failed - no URL returned');
     }
 
-    if (!fileUrl) {
-      console.error('❌ Could not find URL in any expected location');
-      console.error('Full response object:', JSON.stringify(data, null, 2));
-      throw new Error('No file URL found in response');
-    }
-
+    const fileUrl = data.url;
     console.log(`✅ Upload success! URL: ${fileUrl}`);
 
     return res.status(200).json({
