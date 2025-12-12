@@ -9,6 +9,8 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
+  let tempFilePath = null;
+
   try {
     const { file } = req.body;
 
@@ -36,7 +38,7 @@ export default async function handler(req, res) {
         : 'jpg';
 
     const fileName = `upload_${Date.now()}.${ext}`;
-    const tempFilePath = path.join(os.tmpdir(), fileName);
+    tempFilePath = path.join(os.tmpdir(), fileName);
 
     // save buffer ke temporary file
     fs.writeFileSync(tempFilePath, fileBuffer);
@@ -52,21 +54,20 @@ export default async function handler(req, res) {
     });
 
     if (!response.ok) {
-      throw new Error(`Upload failed: ${response.status}`);
+      throw new Error(`Upload failed: ${response.status} ${response.statusText}`);
     }
 
     const data = await response.json();
 
-    // clean up temp file
-    fs.unlinkSync(tempFilePath);
-
-    // pastikan ada file URL
+    // tmpfiles.org response format: { status: 200, file: { url: "..." } }
     if (!data.file || !data.file.url) {
-      throw new Error('Upload failed - no file URL returned');
+      console.error('Unexpected tmpfiles response:', data);
+      throw new Error('Upload failed - no file URL in response');
     }
 
     const fileUrl = data.file.url;
 
+    // Return format yang expected frontend
     return res.status(200).json({
       success: true,
       url: fileUrl,
@@ -76,8 +77,18 @@ export default async function handler(req, res) {
   } catch (error) {
     console.error('Upload error:', error);
     return res.status(500).json({
+      success: false,
       error: 'Upload failed',
       details: error.message
     });
+  } finally {
+    // clean up temp file
+    if (tempFilePath && fs.existsSync(tempFilePath)) {
+      try {
+        fs.unlinkSync(tempFilePath);
+      } catch (err) {
+        console.warn('Failed to delete temp file:', err);
+      }
+    }
   }
 }
