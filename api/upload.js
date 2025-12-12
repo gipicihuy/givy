@@ -15,18 +15,22 @@ export default async function handler(req, res) {
     const { file } = req.body;
 
     if (!file) {
-      return res.status(400).json({ error: 'No file provided' });
+      console.error('❌ No file provided');
+      return res.status(400).json({ success: false, error: 'No file provided' });
     }
 
     // decode base64
     const matches = file.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/);
     if (!matches || matches.length !== 3) {
-      return res.status(400).json({ error: 'Invalid file format' });
+      console.error('❌ Invalid base64 format');
+      return res.status(400).json({ success: false, error: 'Invalid file format' });
     }
 
     const mimeType = matches[1];
     const base64Data = matches[2];
     const fileBuffer = Buffer.from(base64Data, 'base64');
+
+    console.log(`📝 File info - MIME: ${mimeType}, Size: ${fileBuffer.length} bytes`);
 
     // buat nama file
     const extFromMime = mimeType.split('/')[1] || 'jpg';
@@ -42,32 +46,51 @@ export default async function handler(req, res) {
 
     // save buffer ke temporary file
     fs.writeFileSync(tempFilePath, fileBuffer);
+    console.log(`✅ Temp file created: ${tempFilePath}`);
 
     // upload ke tmpfiles.org
     const formData = new FormData();
     formData.append('file', fs.createReadStream(tempFilePath));
 
+    console.log('🚀 Uploading to tmpfiles.org...');
+
     const response = await fetch('https://tmpfiles.org/api/v1/upload', {
       method: 'POST',
       body: formData,
-      headers: formData.getHeaders()
+      headers: formData.getHeaders(),
+      timeout: 30000
     });
 
+    console.log(`📊 Response status: ${response.status}`);
+
+    const responseText = await response.text();
+    console.log(`📄 Response body: ${responseText}`);
+
     if (!response.ok) {
-      throw new Error(`Upload failed: ${response.status} ${response.statusText}`);
+      console.error(`❌ Upload failed: ${response.status}`);
+      throw new Error(`Upload failed: ${response.status} ${responseText}`);
     }
 
-    const data = await response.json();
-
-    // tmpfiles.org response format: { status: 200, file: { url: "..." } }
-    if (!data.file || !data.file.url) {
-      console.error('Unexpected tmpfiles response:', data);
-      throw new Error('Upload failed - no file URL in response');
+    let data;
+    try {
+      data = JSON.parse(responseText);
+    } catch (e) {
+      console.error('❌ Failed to parse JSON:', e);
+      throw new Error(`Invalid JSON response: ${responseText}`);
     }
 
-    const fileUrl = data.file.url;
+    console.log('📦 Parsed data:', JSON.stringify(data));
 
-    // Return format yang expected frontend
+    // tmpfiles.org returns: { status: 200, file: { url: "https://tmpfiles.org/d/HASH" } }
+    const fileUrl = data.file?.url;
+    
+    if (!fileUrl) {
+      console.error('❌ No URL in response:', data);
+      throw new Error('No file URL returned from tmpfiles.org');
+    }
+
+    console.log(`✅ Upload success! URL: ${fileUrl}`);
+
     return res.status(200).json({
       success: true,
       url: fileUrl,
@@ -75,7 +98,8 @@ export default async function handler(req, res) {
     });
 
   } catch (error) {
-    console.error('Upload error:', error);
+    console.error('❌ Upload error:', error.message);
+    console.error('Stack:', error.stack);
     return res.status(500).json({
       success: false,
       error: 'Upload failed',
@@ -86,8 +110,9 @@ export default async function handler(req, res) {
     if (tempFilePath && fs.existsSync(tempFilePath)) {
       try {
         fs.unlinkSync(tempFilePath);
+        console.log('🧹 Temp file cleaned up');
       } catch (err) {
-        console.warn('Failed to delete temp file:', err);
+        console.warn('⚠️ Failed to delete temp file:', err.message);
       }
     }
   }
