@@ -43,13 +43,19 @@ export default async function handler(req, res) {
     const data = await response.json();
 
     if (data.success && data.files && data.files.length > 0) {
-      res.status(200).json({
+      const fileInfo = data.files[0];
+
+      const hash = fileInfo.hash;
+      const ext = fileInfo.name.split('.').pop();
+      const directUrl = `https://qu.ax/x/${hash}.${ext}`;
+
+      return res.status(200).json({
         success: true,
-        url: data.files[0].url
+        url: directUrl
       });
-    } else {
-      throw new Error('Upload failed - no file URL returned');
     }
+
+    throw new Error('Upload failed - no file URL returned');
 
   } catch (error) {
     console.error('Upload error:', error);
