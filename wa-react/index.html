@@ -38,10 +38,6 @@
         .menu-header img{width:4rem;height:4rem;border-radius:50%;margin:0 auto .75rem;border:2px solid rgba(255,255,255,.3)}
         .menu-header h2{font-size:1.25rem;font-weight:700;margin-bottom:.25rem}
         .menu-header p{font-size:.75rem;color:rgba(255,255,255,.6)}
-        .emoji-badge{position:relative;display:inline-block}
-        .emoji-badge:hover .remove-emoji{opacity:1}
-        .remove-emoji{position:absolute;top:-4px;right:-4px;width:20px;height:20px;background:#ef4444;border-radius:50%;display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .2s;cursor:pointer}
-        .remove-emoji i{font-size:10px;color:#fff}
     </style>
 </head>
 <body class="pure-black-bg p-4 text-white min-h-screen">
@@ -78,21 +74,14 @@
                 </div>
                 
                 <div>
-                    <label for="customEmoji" class="block text-xs font-medium text-gray-300 mb-1"><i class="fa-solid fa-smile mr-1"></i>Add Custom Emoji</label>
-                    <div class="flex gap-2">
-                        <input type="text" id="customEmoji" placeholder="Type or paste emoji here... 😊" class="form-input flex-1 py-2 px-3 rounded text-sm">
-                        <button type="button" id="addEmojiBtn" class="px-4 py-2 bg-white/10 hover:bg-white/20 border border-white/20 rounded text-sm font-medium transition-all"><i class="fa-solid fa-plus"></i></button>
-                    </div>
+                    <label for="emojis" class="block text-xs font-medium text-gray-300 mb-1"><i class="fa-solid fa-smile mr-1"></i>Emojis (Max 5, separated by comma)</label>
+                    <input type="text" id="emojis" placeholder="🥶,🔥,🤭,😋,🤯" class="form-input w-full py-2 px-3 rounded text-sm">
+                    <p class="text-xs text-gray-500 mt-1"><i class="fa-solid fa-lightbulb mr-1"></i>Example: 🥶,🔥,🤭 or 😊,❤️,👍</p>
                 </div>
 
-                <div id="selected-emojis-container" class="hidden">
-                    <div class="p-3 bg-white/5 border border-white/10 rounded-lg">
-                        <div class="flex items-center justify-between mb-2">
-                            <p class="text-xs text-gray-400">Selected: <span id="emoji-count">0</span>/5</p>
-                            <button type="button" id="clearAllBtn" class="text-xs text-red-400 hover:text-red-300"><i class="fa-solid fa-times mr-1"></i>Clear All</button>
-                        </div>
-                        <div id="selected-emojis" class="flex flex-wrap gap-2"></div>
-                    </div>
+                <div id="emoji-preview" class="hidden p-3 bg-white/5 border border-white/10 rounded-lg">
+                    <p class="text-xs text-gray-400 mb-2">Preview Emojis: <span id="emoji-count">0</span>/5</p>
+                    <div id="preview-emojis" class="flex flex-wrap gap-2"></div>
                 </div>
 
                 <button type="button" id="send-button" class="link-button flex items-center justify-center w-full bg-white/10 text-white py-2 px-3 rounded text-sm font-medium tracking-wide text-center hover:bg-white/20 transition-all duration-300 mt-4 border border-white/20"><i class="fa-solid fa-paper-plane mr-2 text-sm"></i>Start Reacting</button>
@@ -159,7 +148,21 @@
     <script>
         const menuButton=document.getElementById('menuButton'),menuOverlay=document.getElementById('menuOverlay'),menuContent=document.getElementById('menuContent');function toggleMenu(){menuButton.classList.toggle('active');menuOverlay.classList.toggle('active');menuContent.classList.toggle('active');document.body.style.overflow=menuContent.classList.contains('active')?'hidden':''}menuButton.addEventListener('click',toggleMenu);menuOverlay.addEventListener('click',toggleMenu);document.addEventListener('keydown',e=>{if(e.key==='Escape'&&menuContent.classList.contains('active'))toggleMenu()});
 
-        const channelLinkInput=document.getElementById('channelLink'),customEmojiInput=document.getElementById('customEmoji'),addEmojiBtn=document.getElementById('addEmojiBtn'),clearAllBtn=document.getElementById('clearAllBtn'),sendButton=document.getElementById('send-button'),selectedEmojisContainer=document.getElementById('selected-emojis-container'),selectedEmojisDiv=document.getElementById('selected-emojis'),emojiCountSpan=document.getElementById('emoji-count'),errorArea=document.getElementById('error-area'),errorText=document.getElementById('error-text'),resultArea=document.getElementById('result-area'),resTotal=document.getElementById('res-total'),resSuccess=document.getElementById('res-success'),resFail=document.getElementById('res-fail'),resRate=document.getElementById('res-rate'),resMessage=document.getElementById('res-message'),progressBar=document.getElementById('progress-bar'),MAX_EMOJIS=5,SEND_ICON='<i class="fa-solid fa-paper-plane mr-2 text-sm"></i>Start Reacting',PROCESSING_ICON='<i class="fa-solid fa-spinner fa-spin mr-2"></i>Sending Reactions...';let selectedEmojis=[];function showError(e){errorText.textContent=e;errorArea.classList.remove('hidden');setTimeout(()=>errorArea.classList.add('hidden'),3e3)}function updateEmojiDisplay(){emojiCountSpan.textContent=selectedEmojis.length;if(selectedEmojis.length>0){selectedEmojisContainer.classList.remove('hidden');selectedEmojisDiv.innerHTML='';selectedEmojis.forEach((e,t)=>{const a=document.createElement('div');a.className='emoji-badge';a.innerHTML=`<span class="text-3xl">${e}</span><div class="remove-emoji" data-index="${t}"><i class="fa-solid fa-times"></i></div>`;selectedEmojisDiv.appendChild(a)})}else selectedEmojisContainer.classList.add('hidden')}function addEmoji(){const e=customEmojiInput.value.trim();if(!e)return;const t=/[\p{Emoji_Presentation}\p{Extended_Pictographic}]/gu,a=e.match(t);if(!a||a.length===0){showError('Please enter valid emoji!');return}let n=[...selectedEmojis];for(const e of a)!n.includes(e)&&n.length<MAX_EMOJIS&&n.push(e);n.length>MAX_EMOJIS?(showError(`Maximum ${MAX_EMOJIS} emojis allowed!`),selectedEmojis=n.slice(0,MAX_EMOJIS)):selectedEmojis=n;updateEmojiDisplay();customEmojiInput.value=''}function removeEmoji(e){selectedEmojis.splice(e,1);updateEmojiDisplay()}function validateChannelLink(e){return/^https:\/\/whatsapp\.com\/channel\/[a-zA-Z0-9]+\/\d+$/.test(e)}async function handleSubmit(){errorArea.classList.add('hidden');resultArea.classList.add('hidden');const e=channelLinkInput.value.trim();if(!e){showError('Channel link cannot be empty!');return}if(!validateChannelLink(e)){showError('Invalid WhatsApp channel link format!');return}if(selectedEmojis.length===0){showError('Please select at least one emoji!');return}sendButton.disabled=!0;sendButton.innerHTML=PROCESSING_ICON;try{const t=await fetch('/api/wa-react',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({post_link:e,reacts:selectedEmojis.join(',')})}),a=await t.json();if(t.ok&&a.success){const e=a.success_count||0,t=a.failed_count||0,n=selectedEmojis.length,s=Math.round(e/n*100);resTotal.textContent=n;resSuccess.textContent=e;resFail.textContent=t;resRate.textContent=`${s}%`;resMessage.textContent=a.message||'Reactions sent successfully!';progressBar.style.width=`${s}%`;progressBar.className=`h-2 rounded-full transition-all duration-500 ${s>70?'bg-green-500':s>40?'bg-yellow-500':'bg-red-500'}`;resultArea.classList.remove('hidden')}else showError(a.error||'Failed to send reactions. Please try again.')}catch(e){console.error('Error:',e);showError('Network error. Please check your connection.')}finally{sendButton.disabled=!1;sendButton.innerHTML=SEND_ICON}}addEmojiBtn.addEventListener('click',addEmoji);customEmojiInput.addEventListener('keypress',e=>e.key==='Enter'&&addEmoji());clearAllBtn.addEventListener('click',()=>{selectedEmojis=[];updateEmojiDisplay()});selectedEmojisDiv.addEventListener('click',e=>{const t=e.target.closest('.remove-emoji');if(t){const e=parseInt(t.dataset.index);removeEmoji(e)}});sendButton.addEventListener('click',handleSubmit);
+        const channelLinkInput=document.getElementById('channelLink'),emojisInput=document.getElementById('emojis'),sendButton=document.getElementById('send-button'),emojiPreview=document.getElementById('emoji-preview'),previewEmojisDiv=document.getElementById('preview-emojis'),emojiCountSpan=document.getElementById('emoji-count'),errorArea=document.getElementById('error-area'),errorText=document.getElementById('error-text'),resultArea=document.getElementById('result-area'),resTotal=document.getElementById('res-total'),resSuccess=document.getElementById('res-success'),resFail=document.getElementById('res-fail'),resRate=document.getElementById('res-rate'),resMessage=document.getElementById('res-message'),progressBar=document.getElementById('progress-bar'),MAX_EMOJIS=5,SEND_ICON='<i class="fa-solid fa-paper-plane mr-2 text-sm"></i>Start Reacting',PROCESSING_ICON='<i class="fa-solid fa-spinner fa-spin mr-2"></i>Sending Reactions...';
+
+        function showError(e){errorText.textContent=e;errorArea.classList.remove('hidden');setTimeout(()=>errorArea.classList.add('hidden'),3e3)}
+
+        function extractEmojis(e){const t=/[\p{Emoji_Presentation}\p{Extended_Pictographic}]/gu;return e.match(t)||[]}
+
+        function updateEmojiPreview(){const e=emojisInput.value.trim();if(!e){emojiPreview.classList.add('hidden');return}const t=extractEmojis(e);if(t.length===0){emojiPreview.classList.add('hidden');return}const a=[...new Set(t)].slice(0,MAX_EMOJIS);emojiCountSpan.textContent=a.length;previewEmojisDiv.innerHTML='';a.forEach(e=>{const t=document.createElement('span');t.className='text-3xl';t.textContent=e;previewEmojisDiv.appendChild(t)});emojiPreview.classList.remove('hidden')}
+
+        emojisInput.addEventListener('input',updateEmojiPreview);
+
+        function validateChannelLink(e){return/^https:\/\/whatsapp\.com\/channel\/[a-zA-Z0-9]+\/\d+$/.test(e)}
+
+        async function handleSubmit(){errorArea.classList.add('hidden');resultArea.classList.add('hidden');const e=channelLinkInput.value.trim(),t=emojisInput.value.trim();if(!e){showError('Channel link cannot be empty!');return}if(!validateChannelLink(e)){showError('Invalid WhatsApp channel link format!');return}if(!t){showError('Please enter at least one emoji!');return}const a=extractEmojis(t);if(a.length===0){showError('Please enter valid emojis!');return}const n=[...new Set(a)].slice(0,MAX_EMOJIS);if(n.length>MAX_EMOJIS){showError(`Maximum ${MAX_EMOJIS} emojis allowed!`);return}sendButton.disabled=!0;sendButton.innerHTML=PROCESSING_ICON;try{const t=await fetch('/api/wa-react',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({post_link:e,reacts:n.join(',')})}),a=await t.json();if(t.ok&&a.success){const e=a.success_count||0,t=a.failed_count||0,s=n.length,o=Math.round(e/s*100);resTotal.textContent=s;resSuccess.textContent=e;resFail.textContent=t;resRate.textContent=`${o}%`;resMessage.textContent=a.message||'Reactions sent successfully!';progressBar.style.width=`${o}%`;progressBar.className=`h-2 rounded-full transition-all duration-500 ${o>70?'bg-green-500':o>40?'bg-yellow-500':'bg-red-500'}`;resultArea.classList.remove('hidden')}else showError(a.error||'Failed to send reactions. Please try again.')}catch(e){console.error('Error:',e);showError('Network error. Please check your connection.')}finally{sendButton.disabled=!1;sendButton.innerHTML=SEND_ICON}}
+
+        sendButton.addEventListener('click',handleSubmit);
     </script>
 </body>
 </html>
