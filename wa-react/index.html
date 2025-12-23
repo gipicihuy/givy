@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <link rel="icon" type="image/png" id="favicon-link">
-    <title>Givy WA Channel React</title>
+    <title>Givy React 1k</title>
     <link href="https://fonts.googleapis.com/css2?family=Cousine:wght@400;700&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer"/>
@@ -18,151 +18,147 @@
         .form-input::placeholder{color:rgba(255,255,255,.5)}
         @keyframes fadeIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
         .animate-entry{opacity:0;animation:fadeIn .8s ease-out forwards}
-        .button-disabled{opacity:.6;cursor:not-allowed}
-        .button-disabled:hover{transform:none;box-shadow:none}
-        .menu-button{position:fixed;top:1rem;right:1rem;z-index:100;width:3rem;height:3rem;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:.5rem;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .3s ease}
-        .menu-button:hover{background:rgba(255,255,255,.15);transform:scale(1.05);box-shadow:0 4px 12px rgba(255,255,255,.1)}
-        .menu-button i{color:#fff;font-size:1.25rem;transition:transform .3s ease}
-        .menu-button.active i{transform:rotate(90deg)}
-        .menu-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.95);z-index:90;opacity:0;visibility:hidden;transition:all .3s ease}
-        .menu-overlay.active{opacity:1;visibility:visible}
-        .menu-content{position:fixed;top:0;right:-100%;width:100%;max-width:320px;height:100%;background:#000;border-left:1px solid rgba(255,255,255,.2);z-index:95;padding:5rem 1.5rem 1.5rem;transition:right .3s ease;overflow-y:auto}
-        .menu-content.active{right:0}
-        .menu-item{display:flex;align-items:center;padding:1rem;margin-bottom:.5rem;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:.5rem;color:#fff;text-decoration:none;transition:all .3s ease}
-        .menu-item:hover{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.3);transform:translateX(-5px)}
-        .menu-item.active{background:rgba(255,255,255,.15);border-color:rgba(255,255,255,.4)}
-        .menu-item i{font-size:1.25rem;width:2rem;margin-right:1rem}
-        .menu-item-content h3{font-size:.875rem;font-weight:700;margin-bottom:.125rem}
-        .menu-item-content p{font-size:.625rem;color:rgba(255,255,255,.6)}
-        .menu-header{text-align:center;margin-bottom:2rem;padding-bottom:1rem;border-bottom:1px solid rgba(255,255,255,.1)}
-        .menu-header img{width:4rem;height:4rem;border-radius:50%;margin:0 auto .75rem;border:2px solid rgba(255,255,255,.3)}
-        .menu-header h2{font-size:1.25rem;font-weight:700;margin-bottom:.25rem}
-        .menu-header p{font-size:.75rem;color:rgba(255,255,255,.6)}
+        .menu-button{position:fixed;top:1rem;right:1rem;z-index:100;width:3rem;height:3rem;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:.5rem;display:flex;align-items:center;justify-content:center;cursor:pointer}
     </style>
 </head>
+
 <body class="pure-black-bg p-4 text-white min-h-screen">
-    <button class="menu-button" id="menuButton"><i class="fa-solid fa-bars-staggered"></i></button>
-    <div class="menu-overlay" id="menuOverlay"></div>
-    <nav class="menu-content" id="menuContent">
-        <div class="menu-header">
-            <img id="menu-profile-img" alt="Givy">
-            <h2>Givy Tools</h2>
-            <p>Choose your tool</p>
-        </div>
-        <a href="/" class="menu-item"><i class="fa-solid fa-home"></i><div class="menu-item-content"><h3>Home</h3><p>Social Media Hub</p></div></a>
-        <a href="/tweet/" class="menu-item"><i class="fa-brands fa-x-twitter"></i><div class="menu-item-content"><h3>Fake Tweet</h3><p>Create fake X posts</p></div></a>
-        <a href="/iqc/" class="menu-item"><i class="fa-brands fa-whatsapp"></i><div class="menu-item-content"><h3>IQC Maker</h3><p>WhatsApp quote cards</p></div></a>
-        <a href="/ngl/" class="menu-item"><i class="fa-solid fa-paper-plane"></i><div class="menu-item-content"><h3>NGL Spam</h3><p>Anonymous messages</p></div></a>
-        <a href="/wa-react/" class="menu-item active"><i class="fa-brands fa-whatsapp"></i><div class="menu-item-content"><h3>WA React</h3><p>Channel auto react</p></div></a>
-        <div style="margin-top:2rem;padding-top:1rem;border-top:1px solid rgba(255,255,255,.1);text-align:center"><p style="font-size:.625rem;color:rgba(255,255,255,.4)">Made with <span style="color:#fff">🤍</span> by Givy</p></div>
-    </nav>
-    
-    <div class="flex flex-col items-center w-full max-w-md mx-auto py-6">
-        <div id="profile-section" class="flex flex-col items-center mb-6 text-center w-full animate-entry" style="animation-delay:.1s">
-            <img id="profile-img" alt="Givy Profile" class="w-16 h-16 rounded-full object-cover border-2 border-white/50 mb-2 transform hover:scale-105 transition-transform duration-300 ease-in-out">
-            <h1 class="text-xl font-bold tracking-wider uppercase mb-0 text-white">Givy</h1>
-            <p class="text-xs text-gray-400 italic">WA Channel Auto React</p>
-            <p class="mt-1 text-xs text-gray-300 max-w-xs">Send reactions to WhatsApp Channel posts</p>
-        </div>
-        
-        <div class="w-full space-y-3 animate-entry" style="animation-delay:.3s">
-            <div id="wa-react-form" class="space-y-3">
-                <div>
-                    <label for="channelLink" class="block text-xs font-medium text-gray-300 mb-1"><i class="fa-brands fa-whatsapp mr-1"></i>Channel Post Link</label>
-                    <input type="text" id="channelLink" placeholder="https://whatsapp.com/channel/0029.../123" class="form-input w-full py-2 px-3 rounded text-sm">
-                    <p class="text-xs text-gray-500 mt-1"><i class="fa-solid fa-info-circle mr-1"></i>Format: https://whatsapp.com/channel/ID/POST_NUMBER</p>
-                </div>
-                
-                <div>
-                    <label for="emojis" class="block text-xs font-medium text-gray-300 mb-1"><i class="fa-solid fa-smile mr-1"></i>Emojis (Max 5, separated by comma)</label>
-                    <input type="text" id="emojis" placeholder="🥶,🔥,🤭,😋,🤯" class="form-input w-full py-2 px-3 rounded text-sm">
-                    <p class="text-xs text-gray-500 mt-1"><i class="fa-solid fa-lightbulb mr-1"></i>Example: 🥶,🔥,🤭 or 😊,❤️,👍</p>
-                </div>
 
-                <div id="emoji-preview" class="hidden p-3 bg-white/5 border border-white/10 rounded-lg">
-                    <p class="text-xs text-gray-400 mb-2">Preview Emojis: <span id="emoji-count">0</span>/5</p>
-                    <div id="preview-emojis" class="flex flex-wrap gap-2"></div>
-                </div>
+<button class="menu-button" id="menuButton">
+    <i class="fa-solid fa-bars-staggered"></i>
+</button>
 
-                <button type="button" id="send-button" class="link-button flex items-center justify-center w-full bg-white/10 text-white py-2 px-3 rounded text-sm font-medium tracking-wide text-center hover:bg-white/20 transition-all duration-300 mt-4 border border-white/20"><i class="fa-solid fa-paper-plane mr-2 text-sm"></i>Start Reacting</button>
-            </div>
-        </div>
+<div class="menu-overlay" id="menuOverlay"></div>
 
-        <div id="error-area" class="w-full mt-4 text-center hidden">
-            <div class="p-3 bg-red-400/10 border border-red-400/20 rounded-lg">
-                <div class="flex items-center justify-center text-red-400 text-xs">
-                    <i class="fa-solid fa-exclamation-triangle mr-2"></i>
-                    <span id="error-text"></span>
-                </div>
-            </div>
-        </div>
-
-        <div id="result-area" class="w-full mt-6 text-center hidden">
-            <h2 class="text-sm font-medium text-gray-300 mb-3"><i class="fa-solid fa-chart-column mr-1"></i>Reaction Results</h2>
-            <div class="p-4 bg-white/10 border border-white/20 rounded-lg space-y-3">
-                <div class="grid grid-cols-3 gap-3">
-                    <div class="bg-white/5 rounded-lg p-3 text-center">
-                        <i class="fa-solid fa-bullseye text-purple-400 text-lg mb-1"></i>
-                        <p class="text-xs text-gray-400">Total</p>
-                        <p id="res-total" class="text-sm font-bold text-white">0</p>
-                    </div>
-                    <div class="bg-white/5 rounded-lg p-3 text-center">
-                        <i class="fa-solid fa-check-circle text-green-400 text-lg mb-1"></i>
-                        <p class="text-xs text-gray-400">Success</p>
-                        <p id="res-success" class="text-sm font-bold text-green-400">0</p>
-                    </div>
-                    <div class="bg-white/5 rounded-lg p-3 text-center">
-                        <i class="fa-solid fa-times-circle text-red-400 text-lg mb-1"></i>
-                        <p class="text-xs text-gray-400">Failed</p>
-                        <p id="res-fail" class="text-sm font-bold text-red-400">0</p>
-                    </div>
-                </div>
-
-                <div class="pt-3 border-t border-white/10">
-                    <div class="flex justify-between items-center mb-2">
-                        <span class="text-xs font-medium text-gray-300"><i class="fa-solid fa-chart-line mr-1"></i>Success Rate</span>
-                        <span id="res-rate" class="text-sm font-bold text-white">0%</span>
-                    </div>
-                    <div class="w-full bg-white/10 rounded-full h-2">
-                        <div id="progress-bar" class="h-2 rounded-full transition-all duration-500 bg-green-500" style="width:0%"></div>
-                    </div>
-                </div>
-
-                <p class="text-xs text-center text-gray-400 pt-2">
-                    <i class="fa-solid fa-info-circle mr-1"></i>
-                    <span id="res-message">Reactions sent successfully!</span>
-                </p>
-            </div>
-        </div>
-
-        <div class="text-center text-xs text-gray-500 mt-6 pt-3 border-t border-white/10 animate-entry" style="animation-delay:.7s"><p>Givy | Made with <span class="text-white">🤍</span></p></div>
+<nav class="menu-content" id="menuContent">
+    <div class="menu-header">
+        <img id="menu-profile-img" alt="Givy">
+        <h2>Givy Tools</h2>
+        <p>Choose your tools</p>
     </div>
-    
-    <script type="module">
-        import{ASSETS}from'../config/assets.js';
-        document.getElementById('favicon-link').href=ASSETS.favicon;
-        document.getElementById('profile-img').src=ASSETS.profileImage;
-        document.getElementById('menu-profile-img').src=ASSETS.profileImage;
-    </script>
 
-    <script>
-        const menuButton=document.getElementById('menuButton'),menuOverlay=document.getElementById('menuOverlay'),menuContent=document.getElementById('menuContent');function toggleMenu(){menuButton.classList.toggle('active');menuOverlay.classList.toggle('active');menuContent.classList.toggle('active');document.body.style.overflow=menuContent.classList.contains('active')?'hidden':''}menuButton.addEventListener('click',toggleMenu);menuOverlay.addEventListener('click',toggleMenu);document.addEventListener('keydown',e=>{if(e.key==='Escape'&&menuContent.classList.contains('active'))toggleMenu()});
+    <a href="/" class="menu-item">
+        <i class="fa-solid fa-home"></i>
+        <div class="menu-item-content">
+            <h3>Home</h3>
+            <p>Social Media Hub</p>
+        </div>
+    </a>
 
-        const channelLinkInput=document.getElementById('channelLink'),emojisInput=document.getElementById('emojis'),sendButton=document.getElementById('send-button'),emojiPreview=document.getElementById('emoji-preview'),previewEmojisDiv=document.getElementById('preview-emojis'),emojiCountSpan=document.getElementById('emoji-count'),errorArea=document.getElementById('error-area'),errorText=document.getElementById('error-text'),resultArea=document.getElementById('result-area'),resTotal=document.getElementById('res-total'),resSuccess=document.getElementById('res-success'),resFail=document.getElementById('res-fail'),resRate=document.getElementById('res-rate'),resMessage=document.getElementById('res-message'),progressBar=document.getElementById('progress-bar'),MAX_EMOJIS=5,SEND_ICON='<i class="fa-solid fa-paper-plane mr-2 text-sm"></i>Start Reacting',PROCESSING_ICON='<i class="fa-solid fa-spinner fa-spin mr-2"></i>Sending Reactions...';
+    <a href="/tweet/" class="menu-item">
+        <i class="fa-brands fa-x-twitter"></i>
+        <div class="menu-item-content">
+            <h3>Fake Tweet</h3>
+            <p>Create fake X posts</p>
+        </div>
+    </a>
 
-        function showError(e){errorText.textContent=e;errorArea.classList.remove('hidden');setTimeout(()=>errorArea.classList.add('hidden'),3e3)}
+    <a href="/iqc/" class="menu-item">
+        <i class="fa-brands fa-whatsapp"></i>
+        <div class="menu-item-content">
+            <h3>IQC Maker</h3>
+            <p>WhatsApp quote cards</p>
+        </div>
+    </a>
 
-        function extractEmojis(e){const t=/[\p{Emoji_Presentation}\p{Extended_Pictographic}]/gu;return e.match(t)||[]}
+    <a href="/ngl/" class="menu-item">
+        <i class="fa-solid fa-paper-plane"></i>
+        <div class="menu-item-content">
+            <h3>NGL Spam</h3>
+            <p>Anonymous message</p>
+        </div>
+    </a>
 
-        function updateEmojiPreview(){const e=emojisInput.value.trim();if(!e){emojiPreview.classList.add('hidden');return}const t=extractEmojis(e);if(t.length===0){emojiPreview.classList.add('hidden');return}const a=[...new Set(t)].slice(0,MAX_EMOJIS);emojiCountSpan.textContent=a.length;previewEmojisDiv.innerHTML='';a.forEach(e=>{const t=document.createElement('span');t.className='text-3xl';t.textContent=e;previewEmojisDiv.appendChild(t)});emojiPreview.classList.remove('hidden')}
+    <a href="/wa-react/" class="menu-item active">
+        <i class="fa-brands fa-whatsapp"></i>
+        <div class="menu-item-content">
+            <h3>WA React</h3>
+            <p>Auto reaksi saluran</p>
+        </div>
+    </a>
+</nav>
 
-        emojisInput.addEventListener('input',updateEmojiPreview);
+<div class="flex flex-col items-center w-full max-w-md mx-auto py-6">
 
-        function validateChannelLink(e){return/^https:\/\/whatsapp\.com\/channel\/[a-zA-Z0-9]+\/\d+$/.test(e)}
+    <div class="text-center mb-6">
+        <img id="profile-img" class="w-16 h-16 rounded-full mx-auto mb-2">
+        <h1 class="text-xl font-bold uppercase">Givy</h1>
+        <p class="text-xs text-gray-400 italic">React Saluran 1k😋🤭</p>
+        <p class="mt-1 text-xs text-gray-300">
+            Kirim reaksi ke postingan Saluran WhatsApp
+        </p>
+    </div>
 
-        async function handleSubmit(){errorArea.classList.add('hidden');resultArea.classList.add('hidden');const e=channelLinkInput.value.trim(),t=emojisInput.value.trim();if(!e){showError('Channel link cannot be empty!');return}if(!validateChannelLink(e)){showError('Invalid WhatsApp channel link format!');return}if(!t){showError('Please enter at least one emoji!');return}const a=extractEmojis(t);if(a.length===0){showError('Please enter valid emojis!');return}const n=[...new Set(a)].slice(0,MAX_EMOJIS);if(n.length>MAX_EMOJIS){showError(`Maximum ${MAX_EMOJIS} emojis allowed!`);return}sendButton.disabled=!0;sendButton.innerHTML=PROCESSING_ICON;try{const t=await fetch('/api/wa-react',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({post_link:e,reacts:n.join(',')})}),a=await t.json();if(t.ok&&a.success){const e=a.success_count||0,t=a.failed_count||0,s=n.length,o=Math.round(e/s*100);resTotal.textContent=s;resSuccess.textContent=e;resFail.textContent=t;resRate.textContent=`${o}%`;resMessage.textContent=a.message||'Reactions sent successfully!';progressBar.style.width=`${o}%`;progressBar.className=`h-2 rounded-full transition-all duration-500 ${o>70?'bg-green-500':o>40?'bg-yellow-500':'bg-red-500'}`;resultArea.classList.remove('hidden')}else showError(a.error||'Failed to send reactions. Please try again.')}catch(e){console.error('Error:',e);showError('Network error. Please check your connection.')}finally{sendButton.disabled=!1;sendButton.innerHTML=SEND_ICON}}
+    <div class="w-full space-y-3">
+        <div>
+            <label class="block text-xs text-gray-300 mb-1">
+                <i class="fa-brands fa-whatsapp mr-1"></i>
+                Link Postingan Saluran
+            </label>
+            <input id="channelLink" class="form-input w-full py-2 px-3 rounded text-sm"
+                   placeholder="https://whatsapp.com/channel/...">
+            <p class="text-xs text-gray-500 mt-1">
+                Format: https://whatsapp.com/channel/ID/POST
+            </p>
+        </div>
 
-        sendButton.addEventListener('click',handleSubmit);
-    </script>
+        <div>
+            <label class="block text-xs text-gray-300 mb-1">
+                <i class="fa-solid fa-smile mr-1"></i>
+                Emoji (max 5)
+            </label>
+            <input id="emojis" class="form-input w-full py-2 px-3 rounded text-sm"
+                   placeholder="Masukkan emoji">
+        </div>
+
+        <div id="emoji-preview" class="hidden p-3 bg-white/5 rounded-lg">
+            <p class="text-xs text-gray-400 mb-2">
+                Emoji: <span id="emoji-count">0</span>/5
+            </p>
+            <div id="preview-emojis" class="flex gap-2"></div>
+        </div>
+
+        <button id="send-button"
+                class="link-button w-full bg-white/10 py-2 rounded border border-white/20">
+            <i class="fa-solid fa-paper-plane mr-2"></i>
+            Start Reacting
+        </button>
+    </div>
+
+    <div id="error-area" class="hidden mt-4 text-red-400 text-xs text-center"></div>
+
+    <div id="result-area" class="hidden mt-6 text-center">
+        <h2 class="text-sm text-gray-300 mb-3">
+            Hasil Reaksi
+        </h2>
+
+        <p class="text-xs text-gray-400" id="res-message"></p>
+    </div>
+
+    <div class="text-xs text-gray-500 mt-6">
+        Givy | Made with 🤍
+    </div>
+
+</div>
+
+<script type="module">
+import { ASSETS } from '../config/assets.js';
+document.getElementById('favicon-link').href = ASSETS.favicon;
+document.getElementById('profile-img').src = ASSETS.profileImage;
+document.getElementById('menu-profile-img').src = ASSETS.profileImage;
+</script>
+
+<script>
+const MAX_EMOJIS = 5;
+
+function extractEmojis(text) {
+    return text.match(/[\p{Emoji_Presentation}\p{Extended_Pictographic}]/gu) || [];
+}
+
+document.getElementById('emojis').addEventListener('input', () => {
+    const emojis = [...new Set(extractEmojis(emojis.value))].slice(0, MAX_EMOJIS);
+});
+</script>
+
 </body>
 </html>
