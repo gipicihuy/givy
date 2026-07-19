@@ -1,1 +1,195 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>✨ KALKULATOR Pro Givy</title>
+    
+    <!-- External Libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800;900&family=Fira+Code:wght@400;500;700&display=swap" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
 
+    <!-- KALKULATOR UTAMA -->
+    <div class="calc-container">
+        <!-- Header -->
+        <div class="calc-header">
+            <div class="calc-brand">
+                <h1><i class="fas fa-calculator" style="-webkit-text-fill-color: var(--primary);"></i> Kalkulator</h1>
+                <span class="badge-premium">pro</span>
+            </div>
+            <button class="btn-icon-header" onclick="window.location.href='https://wa.me/62895423300395'" title="Hubungi via WhatsApp">
+                <i class="fab fa-whatsapp" style="color:#25D366;"></i>
+            </button>
+        </div>
+
+        <!-- Layar -->
+        <div class="calc-screen">
+            <div id="proses"></div>
+            <div id="layar">0</div>
+        </div>
+
+        <!-- Tombol -->
+        <div class="btn-grid">
+            <button class="btn-calc btn-calc-clear" onclick="hapusSemua()">C</button>
+            <button class="btn-calc btn-calc-operator" onclick="inputTombol('/')">÷</button>
+            <button class="btn-calc btn-calc-operator" onclick="inputTombol('*')">×</button>
+            <button class="btn-calc" onclick="hapusSatu()"><i class="fas fa-delete-left"></i></button>
+
+            <button class="btn-calc" onclick="inputTombol('7')">7</button>
+            <button class="btn-calc" onclick="inputTombol('8')">8</button>
+            <button class="btn-calc" onclick="inputTombol('9')">9</button>
+            <button class="btn-calc btn-calc-operator" onclick="inputTombol('-')">−</button>
+
+            <button class="btn-calc" onclick="inputTombol('4')">4</button>
+            <button class="btn-calc" onclick="inputTombol('5')">5</button>
+            <button class="btn-calc" onclick="inputTombol('6')">6</button>
+            <button class="btn-calc btn-calc-operator" onclick="inputTombol('+')">+</button>
+
+            <button class="btn-calc" onclick="inputTombol('1')">1</button>
+            <button class="btn-calc" onclick="inputTombol('2')">2</button>
+            <button class="btn-calc" onclick="inputTombol('3')">3</button>
+            <button class="btn-calc btn-calc-equals" onclick="hitungJawaban()">=</button>
+
+            <button class="btn-calc btn-calc-zero" onclick="inputTombol('0')">0</button>
+            <button class="btn-calc" onclick="inputTombol('.')">.</button>
+        </div>
+
+        <!-- Footer WA -->
+        <div class="wa-footer">
+            <a href="https://wa.me/62895423300395" target="_blank" class="btn-wa">
+                <i class="fab fa-whatsapp fa-lg"></i> Hubungi via WhatsApp
+            </a>
+        </div>
+    </div>
+
+    <!-- MODAL 1: Pilihan Paket -->
+    <div class="modal-overlay" id="modalPaket">
+        <div class="modal-box">
+            <div class="modal-header">
+                <h3><i class="fas fa-lock" style="color:var(--primary);"></i> Hasil Terkunci</h3>
+                <button class="modal-close" onclick="tutupModal('modalPaket')"><i class="fas fa-times"></i></button>
+            </div>
+
+            <div class="text-center">
+                <div class="icon-big"><i class="fas fa-crown" style="color:var(--primary);"></i></div>
+                <p style="font-weight:700; color:#0a1628; margin-bottom:4px;">Pilih Paket Langganan</p>
+                <p style="font-size:0.8rem; color:#64748b; margin-bottom:18px;">Dapatkan akses penuh ke semua fitur kalkulator</p>
+            </div>
+
+            <!-- Paket -->
+            <div class="paket-item" onclick="pilihPaket(this, 'Paket Hemat', 17000)">
+                <div>
+                    <div class="paket-name">Paket Hemat</div>
+                    <div class="paket-desc">⚡ 3 hari akses</div>
+                </div>
+                <div class="paket-price">Rp 17.000</div>
+            </div>
+
+            <div class="paket-item active" onclick="pilihPaket(this, 'Paket Populer', 30000)">
+                <div>
+                    <div class="paket-name">Paket Populer <span class="paket-badge">Best</span></div>
+                    <div class="paket-desc">📅 1 bulan penuh</div>
+                </div>
+                <div class="paket-price">Rp 30.000</div>
+            </div>
+
+            <div class="paket-item" onclick="pilihPaket(this, 'Paket Sultan', 100000)">
+                <div>
+                    <div class="paket-name">Paket Sultan</div>
+                    <div class="paket-desc">👑 1 tahun akses</div>
+                </div>
+                <div class="paket-price">Rp 100.000</div>
+            </div>
+
+            <button class="modal-btn modal-btn-primary mt-4" onclick="bukaModalKonfirmasi()">
+                <i class="fas fa-credit-card"></i> Lanjutkan Pembayaran
+            </button>
+            <button class="modal-btn modal-btn-outline mt-2" onclick="bukaModalMiskin()">
+                <i class="fas fa-arrow-left"></i> Kembali
+            </button>
+        </div>
+    </div>
+
+    <!-- MODAL 2: Konfirmasi -->
+    <div class="modal-overlay" id="modalKonfirmasi">
+        <div class="modal-box" style="max-width:360px;">
+            <div class="modal-header" style="border-bottom-color:var(--primary);">
+                <h3 style="color:var(--primary);"><i class="fas fa-check-circle"></i> Konfirmasi</h3>
+                <button class="modal-close" onclick="tutupModal('modalKonfirmasi'); bukaModalPaket();"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="text-center">
+                <div class="icon-big" style="border-color:var(--primary); color:var(--primary); background:#eef2ff;"><i class="fas fa-clipboard-check"></i></div>
+                <p style="font-weight:800; font-size:1.1rem; color:#0a1628;">Konfirmasi Pemesanan</p>
+                <p style="color:#64748b; font-size:0.85rem; margin-top:4px;">Silakan konfirmasi pesanan Anda melalui WhatsApp</p>
+                <div style="background:#f8fafc; border:2px solid #0a1628; border-radius:10px; padding:12px; margin:14px 0; text-align:left;">
+                    <p style="font-weight:600; font-size:0.85rem; color:#0a1628;">📦 <span id="confirm-paket">Paket Populer</span></p>
+                    <p style="font-weight:800; font-size:1.1rem; color:var(--primary);">💰 <span id="confirm-harga">Rp 30.000</span></p>
+                </div>
+            </div>
+            <button class="modal-btn modal-btn-success mt-2" onclick="kirimPesanWA()">
+                <i class="fab fa-whatsapp"></i> Kirim Pesanan via WhatsApp
+            </button>
+            <button class="modal-btn modal-btn-outline mt-2" onclick="tutupModal('modalKonfirmasi'); bukaModalPaket();">
+                <i class="fas fa-arrow-left"></i> Kembali
+            </button>
+        </div>
+    </div>
+
+    <!-- MODAL 3: Info -->
+    <div class="modal-overlay" id="modalMiskin">
+        <div class="modal-box" style="max-width:360px;">
+            <div class="modal-header" style="border-bottom-color:var(--orange);">
+                <h3 style="color:var(--orange);"><i class="fas fa-info-circle"></i> Informasi</h3>
+                <button class="modal-close" onclick="tutupModal('modalMiskin'); bukaModalPaket();"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="text-center">
+                <div class="icon-big" style="border-color:var(--orange); color:var(--orange); background:#fef3c7;"><i class="fas fa-lightbulb"></i></div>
+                <p style="font-weight:800; font-size:1.1rem; color:#0a1628;">Silakan Pilih Paket Terlebih Dahulu</p>
+                <p style="color:#64748b; font-size:0.85rem; margin-top:6px;">Untuk melihat hasil perhitungan, Anda perlu berlangganan salah satu paket yang tersedia.</p>
+            </div>
+            <button class="modal-btn modal-btn-primary mt-4" onclick="tutupModal('modalMiskin'); bukaModalPaket();">
+                <i class="fas fa-arrow-left"></i> Kembali ke Pilihan Paket
+            </button>
+            <button class="modal-btn modal-btn-outline mt-2" onclick="tutupModal('modalMiskin'); bukaModalKeluar();">
+                <i class="fas fa-sign-out-alt"></i> Keluar
+            </button>
+        </div>
+    </div>
+
+    <!-- MODAL 4: Keluar -->
+    <div class="modal-overlay" id="modalKeluar">
+        <div class="modal-box" style="max-width:360px;">
+            <div class="modal-header" style="border-bottom-color:var(--red);">
+                <h3 style="color:var(--red);"><i class="fas fa-door-open"></i> Konfirmasi Keluar</h3>
+                <button class="modal-close" onclick="tutupModal('modalKeluar'); bukaModalPaket();"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="text-center">
+                <div class="icon-big" style="border-color:var(--red); color:var(--red); background:#fee2e2;"><i class="fas fa-question-circle"></i></div>
+                <p style="font-weight:800; font-size:1.1rem; color:#0a1628;">Yakin Ingin Keluar?</p>
+                <p style="color:#64748b; font-size:0.85rem;">Anda akan dikenakan biaya administrasi pembatalan sebesar</p>
+                <div style="background:#fee2e2; border:2px solid var(--red); border-radius:10px; padding:12px; margin:14px 0; display:flex; justify-content:space-between; align-items:center;">
+                    <span style="font-weight:600; color:#0a1628;">Biaya Keluar Sesi</span>
+                    <span style="font-weight:900; font-size:1.2rem; color:var(--red);">Rp 5.000</span>
+                </div>
+            </div>
+            <button class="modal-btn modal-btn-danger mt-2" onclick="kirimPesanWA()">
+                <i class="fas fa-credit-card"></i> Bayar & Keluar
+            </button>
+            <button class="modal-btn modal-btn-outline mt-2" onclick="tutupModal('modalKeluar'); bukaModalPaket();">
+                <i class="fas fa-arrow-left"></i> Kembali, Saya Mau Langganan
+            </button>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="js/calculator.js"></script>
+    <script src="js/modal.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
