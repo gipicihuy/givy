@@ -69,7 +69,7 @@ function pilihPaket(el, nama, harga) {
  * Kirim pesanan via WhatsApp
  */
 function kirimPesanWA() {
-    const nomor = '6285196287445';
+    const nomor = '62895423300395';
     const pesan = `Halo Admin,%0A%0ASaya ingin melakukan pemesanan paket *${paketTerpilih.nama}* dengan harga *Rp ${paketTerpilih.harga.toLocaleString()}*.%0A%0ABerikut detail pemesanan saya:%0A📦 Paket: ${paketTerpilih.nama}%0A💰 Harga: Rp ${paketTerpilih.harga.toLocaleString()}%0A%0AMohon informasi lebih lanjut mengenai proses pembayaran dan aktivasi. Terima kasih.`;
     const url = `https://wa.me/${nomor}?text=${pesan}`;
     
