@@ -639,7 +639,7 @@ function render(data) {
   lucide.createIcons();
 }
 
-fetch('testi.json')
+fetch('/testi/testi.json')
   .then(response => {
     if (!response.ok) throw new Error('Gagal memuat data');
     return response.json();
