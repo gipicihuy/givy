@@ -438,21 +438,28 @@ body {
   transform: scale(1);
 }
 
-.lightbox-inner img {
-  width: 100%;
+.lightbox-frame {
+  position: relative;
   border-radius: var(--radius-md);
-  display: block;
+  overflow: hidden;
   box-shadow: var(--shadow-lg);
+  line-height: 0;
+}
+
+.lightbox-frame img {
+  width: 100%;
+  display: block;
 }
 
 .lightbox-close {
   position: absolute;
-  top: -46px;
-  right: 0;
-  width: 36px;
-  height: 36px;
+  top: 12px;
+  right: 12px;
+  width: 34px;
+  height: 34px;
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.12);
+  background: rgba(15, 16, 18, 0.55);
+  backdrop-filter: blur(4px);
   border: none;
   display: flex;
   align-items: center;
@@ -462,8 +469,8 @@ body {
 }
 
 .lightbox-close svg {
-  width: 18px;
-  height: 18px;
+  width: 17px;
+  height: 17px;
 }
 
 @media (max-width: 620px) {
@@ -529,10 +536,12 @@ body {
 
 <div class="lightbox" id="lightbox">
   <div class="lightbox-inner">
-    <button class="lightbox-close" id="lightboxClose">
-      <svg data-lucide="x"></svg>
-    </button>
-    <img id="lightboxImg" src="" alt="Bukti transaksi">
+    <div class="lightbox-frame">
+      <img id="lightboxImg" src="" alt="Bukti transaksi">
+      <button class="lightbox-close" id="lightboxClose">
+        <svg data-lucide="x"></svg>
+      </button>
+    </div>
   </div>
 </div>
 
