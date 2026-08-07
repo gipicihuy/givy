@@ -3,7 +3,6 @@
     "name": "Buyer #1",
     "product": "Alight Motion Premium",
     "price": "Rp3.000",
-    "rating": 5,
     "message": "makasih givy ganteng",
     "img": "/testi/1.jpg",
     "date": "2026-08-06"
@@ -12,7 +11,6 @@
     "name": "Buyer #2",
     "product": "Alight Motion Premium",
     "price": "Rp3.000",
-    "rating": 5,
     "message": "done bang givy",
     "img": "/testi/2.jpg",
     "date": "2026-08-06"
