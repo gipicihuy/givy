@@ -45,6 +45,36 @@
   }
 }
 
+html[data-theme="dark"] {
+  --bg: #16181B;
+  --surface: #1E2023;
+  --surface-soft: #24272B;
+  --text: #F2F1ED;
+  --text-muted: #9A9DA5;
+  --border: #2D3034;
+  --accent: #4CA37B;
+  --accent-dark: #7FD9AE;
+  --accent-soft: rgba(76, 163, 123, 0.16);
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 12px 28px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 24px 48px rgba(0, 0, 0, 0.55);
+}
+
+html[data-theme="light"] {
+  --bg: #F3F2EE;
+  --surface: #FFFFFF;
+  --surface-soft: #FAF9F6;
+  --text: #16181B;
+  --text-muted: #6E7178;
+  --border: #E7E4DD;
+  --accent: #2F6F52;
+  --accent-dark: #234F3B;
+  --accent-soft: #E4EEE7;
+  --shadow-sm: 0 1px 2px rgba(20, 20, 20, 0.04);
+  --shadow-md: 0 12px 28px rgba(20, 20, 20, 0.08);
+  --shadow-lg: 0 24px 48px rgba(20, 20, 20, 0.14);
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -82,7 +112,7 @@ body {
 .topbar-inner {
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
 }
 
 .brand-mark {
@@ -102,6 +132,34 @@ body {
   height: 100%;
   object-fit: cover;
   display: block;
+}
+
+.theme-toggle {
+  width: 40px;
+  height: 40px;
+  border-radius: 999px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text);
+  cursor: pointer;
+  transition: transform 0.2s ease, background 0.2s ease;
+  box-shadow: var(--shadow-sm);
+}
+
+.theme-toggle:hover {
+  background: var(--surface-soft);
+}
+
+.theme-toggle:active {
+  transform: scale(0.92);
+}
+
+.theme-toggle svg {
+  width: 18px;
+  height: 18px;
 }
 
 .brand {
@@ -522,6 +580,9 @@ body {
       <span class="brand-mark"><img src="https://athars.space/uploads/1ffc29b1.png" alt="Givy Testi"></span>
       Givy Testi
     </div>
+    <button class="theme-toggle" id="themeToggle" aria-label="Ganti tema">
+      <svg data-lucide="moon" id="themeIcon"></svg>
+    </button>
   </div>
 </div>
 
@@ -569,6 +630,22 @@ const countLabel = document.getElementById('countLabel');
 const lightbox = document.getElementById('lightbox');
 const lightboxImg = document.getElementById('lightboxImg');
 const lightboxClose = document.getElementById('lightboxClose');
+const themeToggle = document.getElementById('themeToggle');
+const themeIcon = document.getElementById('themeIcon');
+
+function applyTheme(theme) {
+  document.documentElement.setAttribute('data-theme', theme);
+  themeIcon.setAttribute('data-lucide', theme === 'dark' ? 'sun' : 'moon');
+  lucide.createIcons();
+}
+
+let currentTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+applyTheme(currentTheme);
+
+themeToggle.addEventListener('click', () => {
+  currentTheme = currentTheme === 'dark' ? 'light' : 'dark';
+  applyTheme(currentTheme);
+});
 
 function formatDate(value) {
   const date = new Date(value);
