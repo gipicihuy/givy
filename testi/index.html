@@ -219,8 +219,10 @@ body {
 
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 22px;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  max-width: 680px;
+  margin: 0 auto;
 }
 
 .card {
@@ -499,6 +501,29 @@ body {
 
   .section {
     padding: 40px 0 70px;
+  }
+}
+
+@media (max-width: 420px) {
+  .grid {
+    gap: 10px;
+  }
+
+  .card-body {
+    padding: 14px 14px 16px;
+    gap: 8px;
+  }
+
+  .card-name {
+    font-size: 14px;
+  }
+
+  .card-product {
+    font-size: 12px;
+  }
+
+  .card-message {
+    font-size: 12.5px;
   }
 }
 </style>
