@@ -375,7 +375,6 @@ body {
   border-top: 1px solid var(--border);
   display: flex;
   align-items: center;
-  justify-content: space-between;
   font-size: 12px;
   color: var(--text-muted);
 }
@@ -391,18 +390,6 @@ body {
   height: 13px;
 }
 
-.card-footer-verified {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  color: var(--accent);
-  font-weight: 600;
-}
-
-.card-footer-verified svg {
-  width: 13px;
-  height: 13px;
-}
 
 .empty-state, .error-state {
   text-align: center;
@@ -621,7 +608,6 @@ function buildCard(item, index) {
       '<p class="card-message">' + item.message + '</p>' +
       '<div class="card-footer">' +
         '<div class="card-footer-date"><svg data-lucide="calendar"></svg>' + formatDate(item.date) + '</div>' +
-        '<div class="card-footer-verified"><svg data-lucide="check-circle-2"></svg>Terverifikasi</div>' +
       '</div>' +
     '</div>';
   return card;
