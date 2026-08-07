@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light dark">
 <title>Givy Testi</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -25,6 +26,23 @@
   --radius-lg: 22px;
   --radius-md: 14px;
   --radius-sm: 10px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #16181B;
+    --surface: #1E2023;
+    --surface-soft: #24272B;
+    --text: #F2F1ED;
+    --text-muted: #9A9DA5;
+    --border: #2D3034;
+    --accent: #4CA37B;
+    --accent-dark: #7FD9AE;
+    --accent-soft: rgba(76, 163, 123, 0.16);
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+    --shadow-md: 0 12px 28px rgba(0, 0, 0, 0.4);
+    --shadow-lg: 0 24px 48px rgba(0, 0, 0, 0.55);
+  }
 }
 
 * {
@@ -64,7 +82,7 @@ body {
 .topbar-inner {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
 }
 
 .brand-mark {
@@ -93,20 +111,6 @@ body {
   font-weight: 700;
   font-size: 19px;
   letter-spacing: -0.01em;
-}
-
-.topbar-note {
-  font-size: 13px;
-  color: var(--text-muted);
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.topbar-note svg {
-  width: 15px;
-  height: 15px;
-  color: var(--accent);
 }
 
 .hero {
@@ -517,10 +521,6 @@ body {
     <div class="brand">
       <span class="brand-mark"><img src="https://athars.space/uploads/1ffc29b1.png" alt="Givy Testi"></span>
       Givy Testi
-    </div>
-    <div class="topbar-note">
-      <svg data-lucide="shield-check"></svg>
-      Bukti transaksi asli
     </div>
   </div>
 </div>
