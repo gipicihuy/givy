@@ -675,13 +675,13 @@ html[data-theme="dark"] .icon-moon {
 }
 
 .mp-panel {
-  width: 280px;
+  width: 340px;
   max-width: calc(100vw - 76px);
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: 999px;
   box-shadow: var(--shadow-lg);
-  padding: 6px 14px 6px 6px;
+  padding: 8px 16px 8px 8px;
   margin-right: 12px;
   opacity: 0;
   transform: translateX(24px) scale(0.96);
@@ -690,7 +690,7 @@ html[data-theme="dark"] .icon-moon {
   order: -1;
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
 }
 
 .mp.open .mp-panel {
@@ -700,8 +700,8 @@ html[data-theme="dark"] .icon-moon {
 }
 
 .mp-cover-wrap {
-  width: 40px;
-  height: 40px;
+  width: 52px;
+  height: 52px;
   flex-shrink: 0;
   border-radius: 999px;
   overflow: hidden;
@@ -721,18 +721,19 @@ html[data-theme="dark"] .icon-moon {
   min-width: 0;
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 6px;
 }
 
 .mp-meta {
   text-align: left;
-  line-height: 1.2;
+  line-height: 1.25;
 }
 
 .mp-title {
-  font-size: 12.5px;
+  font-size: 13.5px;
   font-weight: 700;
   letter-spacing: -0.01em;
+  line-height: 1.3;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -740,7 +741,7 @@ html[data-theme="dark"] .icon-moon {
 
 .mp-artist {
   margin-top: 1px;
-  font-size: 10.5px;
+  font-size: 11.5px;
   color: var(--text-muted);
   white-space: nowrap;
   overflow: hidden;
@@ -748,22 +749,23 @@ html[data-theme="dark"] .icon-moon {
 }
 
 .mp-progress-row {
+  margin-top: 0;
   display: flex;
   align-items: center;
-  gap: 5px;
+  gap: 6px;
 }
 
 .mp-time {
-  font-size: 9px;
+  font-size: 9.5px;
   color: var(--text-muted);
-  min-width: 20px;
+  min-width: 22px;
   text-align: center;
   font-variant-numeric: tabular-nums;
 }
 
 .mp-progress {
   flex: 1;
-  height: 3px;
+  height: 4px;
   border-radius: 999px;
   background: var(--border);
   position: relative;
@@ -783,8 +785,8 @@ html[data-theme="dark"] .icon-moon {
 .mp-progress-handle {
   position: absolute;
   top: 50%;
-  width: 9px;
-  height: 9px;
+  width: 11px;
+  height: 11px;
   border-radius: 999px;
   background: var(--accent);
   transform: translate(-50%, -50%);
@@ -793,11 +795,12 @@ html[data-theme="dark"] .icon-moon {
 }
 
 .mp-controls {
+  margin-top: 0;
   flex-shrink: 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 4px;
+  gap: 8px;
 }
 
 .mp-btn {
@@ -809,7 +812,7 @@ html[data-theme="dark"] .icon-moon {
   align-items: center;
   justify-content: center;
   transition: transform 0.15s ease, color 0.2s ease;
-  padding: 3px;
+  padding: 4px;
   flex-shrink: 0;
 }
 
@@ -827,8 +830,8 @@ html[data-theme="dark"] .icon-moon {
 }
 
 .mp-btn-play {
-  width: 30px;
-  height: 30px;
+  width: 36px;
+  height: 36px;
   border-radius: 999px;
   background: var(--accent);
   color: #fff;
@@ -841,8 +844,8 @@ html[data-theme="dark"] .icon-moon {
 }
 
 .mp-btn-play svg {
-  width: 14px;
-  height: 14px;
+  width: 15px;
+  height: 15px;
   position: absolute;
   top: 50%;
   left: 50%;
@@ -878,10 +881,10 @@ html[data-theme="dark"] .icon-moon {
   }
 
   .mp-panel {
-    width: 240px;
+    width: 280px;
     max-width: calc(100vw - 66px);
-    padding: 5px 12px 5px 5px;
-    gap: 8px;
+    padding: 7px 14px 7px 7px;
+    gap: 10px;
   }
 
   .mp-toggle {
@@ -1053,10 +1056,8 @@ function buildCard(item, index) {
 
 function buildStats(data) {
   const total = data.length;
-  const products = new Set(data.map(item => item.product)).size;
   const stats = [
-    { value: total, label: 'Total testimoni', accent: true },
-    { value: products, label: 'Produk terjual', accent: false }
+    { value: total, label: 'Total testimoni', accent: true }
   ];
   statsEl.innerHTML = stats.map(stat =>
     '<div class="stat-card">' +
