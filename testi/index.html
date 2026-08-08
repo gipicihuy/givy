@@ -604,8 +604,10 @@ html[data-theme="dark"] .icon-moon {
 .mp {
   position: fixed;
   top: 50%;
+  top: 50svh;
   right: 20px;
-  transform: translateY(-50%);
+  transform: translateY(-50%) translateZ(0);
+  will-change: transform;
   z-index: 200;
   display: flex;
   align-items: center;
