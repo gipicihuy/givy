@@ -612,9 +612,9 @@ html[data-theme="dark"] .icon-moon {
 }
 
 .mp-toggle {
-  width: 52px;
-  height: 52px;
-  min-width: 52px;
+  width: 42px;
+  height: 42px;
+  min-width: 42px;
   border-radius: 999px;
   background: var(--accent);
   border: none;
@@ -639,8 +639,8 @@ html[data-theme="dark"] .icon-moon {
 }
 
 .mp-toggle svg {
-  width: 22px;
-  height: 22px;
+  width: 18px;
+  height: 18px;
 }
 
 .mp-toggle .mp-icon-close {
@@ -673,14 +673,14 @@ html[data-theme="dark"] .icon-moon {
 }
 
 .mp-panel {
-  width: 300px;
-  max-width: calc(100vw - 96px);
+  width: 220px;
+  max-width: calc(100vw - 80px);
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-lg);
-  padding: 18px;
-  margin-right: 14px;
+  padding: 14px;
+  margin-right: 12px;
   opacity: 0;
   transform: translateX(24px) scale(0.96);
   pointer-events: none;
@@ -828,49 +828,26 @@ html[data-theme="dark"] .icon-moon {
 .mp-btn-play svg {
   width: 20px;
   height: 20px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  transition: opacity 0.18s ease, transform 0.18s ease;
 }
 
-.mp-volume-row {
-  margin-top: 14px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
+.mp-btn-play .mp-icon-pause {
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(0.7);
 }
 
-.mp-volume-row svg {
-  width: 15px;
-  height: 15px;
-  color: var(--text-muted);
-  flex-shrink: 0;
+.mp-btn-play.is-playing .mp-icon-play {
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(0.7);
 }
 
-.mp-volume {
-  flex: 1;
-  -webkit-appearance: none;
-  appearance: none;
-  height: 4px;
-  border-radius: 999px;
-  background: var(--border);
-  outline: none;
-  cursor: pointer;
-}
-
-.mp-volume::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  width: 11px;
-  height: 11px;
-  border-radius: 999px;
-  background: var(--accent);
-  cursor: pointer;
-}
-
-.mp-volume::-moz-range-thumb {
-  width: 11px;
-  height: 11px;
-  border: none;
-  border-radius: 999px;
-  background: var(--accent);
-  cursor: pointer;
+.mp-btn-play.is-playing .mp-icon-pause {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
 }
 
 .mp-empty {
@@ -886,15 +863,20 @@ html[data-theme="dark"] .icon-moon {
   }
 
   .mp-panel {
-    width: 260px;
-    max-width: calc(100vw - 84px);
-    padding: 14px;
+    width: 200px;
+    max-width: calc(100vw - 70px);
+    padding: 12px;
   }
 
   .mp-toggle {
-    width: 46px;
-    height: 46px;
-    min-width: 46px;
+    width: 38px;
+    height: 38px;
+    min-width: 38px;
+  }
+
+  .mp-toggle svg {
+    width: 16px;
+    height: 16px;
   }
 }
 </style>
@@ -972,15 +954,12 @@ html[data-theme="dark"] .icon-moon {
         <svg data-lucide="skip-back"></svg>
       </button>
       <button class="mp-btn mp-btn-play" id="mpPlay" aria-label="Play/Pause">
-        <svg data-lucide="play" id="mpPlayIcon"></svg>
+        <svg data-lucide="play" class="mp-icon-play"></svg>
+        <svg data-lucide="pause" class="mp-icon-pause"></svg>
       </button>
       <button class="mp-btn" id="mpNext" aria-label="Lagu berikutnya">
         <svg data-lucide="skip-forward"></svg>
       </button>
-    </div>
-    <div class="mp-volume-row">
-      <svg data-lucide="volume-2"></svg>
-      <input type="range" class="mp-volume" id="mpVolume" min="0" max="1" step="0.01" value="1">
     </div>
   </div>
   <button class="mp-toggle" id="mpToggle" aria-label="Buka pemutar musik">
@@ -1123,7 +1102,6 @@ const mpCover = document.getElementById('mpCover');
 const mpTitle = document.getElementById('mpTitle');
 const mpArtist = document.getElementById('mpArtist');
 const mpPlay = document.getElementById('mpPlay');
-const mpPlayIcon = document.getElementById('mpPlayIcon');
 const mpPrev = document.getElementById('mpPrev');
 const mpNext = document.getElementById('mpNext');
 const mpProgress = document.getElementById('mpProgress');
@@ -1131,9 +1109,9 @@ const mpProgressFill = document.getElementById('mpProgressFill');
 const mpProgressHandle = document.getElementById('mpProgressHandle');
 const mpCurrentTime = document.getElementById('mpCurrentTime');
 const mpDuration = document.getElementById('mpDuration');
-const mpVolume = document.getElementById('mpVolume');
 
 const audio = new Audio();
+audio.volume = 0.8;
 let playlist = [];
 let currentIndex = 0;
 let isSeeking = false;
@@ -1163,9 +1141,8 @@ function loadTrack(index, autoplay) {
 }
 
 function setPlayingState(playing) {
-  mpPlayIcon.setAttribute('data-lucide', playing ? 'pause' : 'play');
+  mpPlay.classList.toggle('is-playing', playing);
   mpToggle.classList.toggle('spin', playing);
-  lucide.createIcons();
 }
 
 mpPlay.addEventListener('click', () => {
@@ -1241,10 +1218,6 @@ mpProgress.addEventListener('touchmove', (e) => {
 
 mpProgress.addEventListener('touchend', () => {
   isSeeking = false;
-});
-
-mpVolume.addEventListener('input', () => {
-  audio.volume = parseFloat(mpVolume.value);
 });
 
 mpToggle.addEventListener('click', () => {
