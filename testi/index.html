@@ -673,19 +673,22 @@ html[data-theme="dark"] .icon-moon {
 }
 
 .mp-panel {
-  width: 220px;
-  max-width: calc(100vw - 80px);
+  width: 280px;
+  max-width: calc(100vw - 76px);
   background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: var(--radius-lg);
+  border-radius: 999px;
   box-shadow: var(--shadow-lg);
-  padding: 14px;
+  padding: 6px 14px 6px 6px;
   margin-right: 12px;
   opacity: 0;
   transform: translateX(24px) scale(0.96);
   pointer-events: none;
   transition: opacity 0.32s cubic-bezier(.2,.8,.2,1), transform 0.32s cubic-bezier(.2,.8,.2,1);
   order: -1;
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
 .mp.open .mp-panel {
@@ -695,9 +698,10 @@ html[data-theme="dark"] .icon-moon {
 }
 
 .mp-cover-wrap {
-  width: 100%;
-  aspect-ratio: 1 / 1;
-  border-radius: var(--radius-md);
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+  border-radius: 999px;
   overflow: hidden;
   background: var(--surface-soft);
   box-shadow: var(--shadow-sm);
@@ -710,13 +714,21 @@ html[data-theme="dark"] .icon-moon {
   display: block;
 }
 
+.mp-body {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
 .mp-meta {
-  margin-top: 14px;
-  text-align: center;
+  text-align: left;
+  line-height: 1.2;
 }
 
 .mp-title {
-  font-size: 15px;
+  font-size: 12.5px;
   font-weight: 700;
   letter-spacing: -0.01em;
   white-space: nowrap;
@@ -725,8 +737,8 @@ html[data-theme="dark"] .icon-moon {
 }
 
 .mp-artist {
-  margin-top: 2px;
-  font-size: 12.5px;
+  margin-top: 1px;
+  font-size: 10.5px;
   color: var(--text-muted);
   white-space: nowrap;
   overflow: hidden;
@@ -734,23 +746,22 @@ html[data-theme="dark"] .icon-moon {
 }
 
 .mp-progress-row {
-  margin-top: 14px;
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 5px;
 }
 
 .mp-time {
-  font-size: 11px;
+  font-size: 9px;
   color: var(--text-muted);
-  min-width: 32px;
+  min-width: 20px;
   text-align: center;
   font-variant-numeric: tabular-nums;
 }
 
 .mp-progress {
   flex: 1;
-  height: 4px;
+  height: 3px;
   border-radius: 999px;
   background: var(--border);
   position: relative;
@@ -770,8 +781,8 @@ html[data-theme="dark"] .icon-moon {
 .mp-progress-handle {
   position: absolute;
   top: 50%;
-  width: 11px;
-  height: 11px;
+  width: 9px;
+  height: 9px;
   border-radius: 999px;
   background: var(--accent);
   transform: translate(-50%, -50%);
@@ -780,11 +791,11 @@ html[data-theme="dark"] .icon-moon {
 }
 
 .mp-controls {
-  margin-top: 16px;
+  flex-shrink: 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 14px;
+  gap: 4px;
 }
 
 .mp-btn {
@@ -796,7 +807,8 @@ html[data-theme="dark"] .icon-moon {
   align-items: center;
   justify-content: center;
   transition: transform 0.15s ease, color 0.2s ease;
-  padding: 4px;
+  padding: 3px;
+  flex-shrink: 0;
 }
 
 .mp-btn:hover {
@@ -808,13 +820,13 @@ html[data-theme="dark"] .icon-moon {
 }
 
 .mp-btn svg {
-  width: 19px;
-  height: 19px;
+  width: 15px;
+  height: 15px;
 }
 
 .mp-btn-play {
-  width: 46px;
-  height: 46px;
+  width: 30px;
+  height: 30px;
   border-radius: 999px;
   background: var(--accent);
   color: #fff;
@@ -827,8 +839,8 @@ html[data-theme="dark"] .icon-moon {
 }
 
 .mp-btn-play svg {
-  width: 20px;
-  height: 20px;
+  width: 14px;
+  height: 14px;
   position: absolute;
   top: 50%;
   left: 50%;
@@ -853,8 +865,8 @@ html[data-theme="dark"] .icon-moon {
 
 .mp-empty {
   text-align: center;
-  padding: 20px 4px;
-  font-size: 12.5px;
+  padding: 6px 10px;
+  font-size: 11.5px;
   color: var(--text-muted);
 }
 
@@ -864,9 +876,10 @@ html[data-theme="dark"] .icon-moon {
   }
 
   .mp-panel {
-    width: 200px;
-    max-width: calc(100vw - 70px);
-    padding: 12px;
+    width: 240px;
+    max-width: calc(100vw - 66px);
+    padding: 5px 12px 5px 5px;
+    gap: 8px;
   }
 
   .mp-toggle {
@@ -938,17 +951,19 @@ html[data-theme="dark"] .icon-moon {
     <div class="mp-cover-wrap">
       <img id="mpCover" src="" alt="Cover album">
     </div>
-    <div class="mp-meta">
-      <div class="mp-title" id="mpTitle">-</div>
-      <div class="mp-artist" id="mpArtist">-</div>
-    </div>
-    <div class="mp-progress-row">
-      <span class="mp-time" id="mpCurrentTime">0:00</span>
-      <div class="mp-progress" id="mpProgress">
-        <div class="mp-progress-fill" id="mpProgressFill"></div>
-        <div class="mp-progress-handle" id="mpProgressHandle"></div>
+    <div class="mp-body">
+      <div class="mp-meta">
+        <div class="mp-title" id="mpTitle">-</div>
+        <div class="mp-artist" id="mpArtist">-</div>
       </div>
-      <span class="mp-time" id="mpDuration">0:00</span>
+      <div class="mp-progress-row">
+        <span class="mp-time" id="mpCurrentTime">0:00</span>
+        <div class="mp-progress" id="mpProgress">
+          <div class="mp-progress-fill" id="mpProgressFill"></div>
+          <div class="mp-progress-handle" id="mpProgressHandle"></div>
+        </div>
+        <span class="mp-time" id="mpDuration">0:00</span>
+      </div>
     </div>
     <div class="mp-controls">
       <button class="mp-btn" id="mpPrev" aria-label="Lagu sebelumnya">
