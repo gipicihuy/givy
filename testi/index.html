@@ -675,13 +675,14 @@ html[data-theme="dark"] .icon-moon {
 }
 
 .mp-panel {
-  width: 340px;
-  max-width: calc(100vw - 76px);
+  width: 260px;
+  max-width: calc(100vw - 56px);
+  max-height: 420px;
   background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: 999px;
+  border-radius: 20px;
   box-shadow: var(--shadow-lg);
-  padding: 8px 16px 8px 8px;
+  padding: 18px;
   margin-right: 12px;
   opacity: 0;
   transform: translateX(24px) scale(0.96);
@@ -689,8 +690,10 @@ html[data-theme="dark"] .icon-moon {
   transition: opacity 0.32s cubic-bezier(.2,.8,.2,1), transform 0.32s cubic-bezier(.2,.8,.2,1);
   order: -1;
   display: flex;
-  align-items: center;
-  gap: 12px;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 14px;
+  overflow: hidden;
 }
 
 .mp.open .mp-panel {
@@ -700,13 +703,15 @@ html[data-theme="dark"] .icon-moon {
 }
 
 .mp-cover-wrap {
-  width: 52px;
-  height: 52px;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  max-height: 180px;
   flex-shrink: 0;
-  border-radius: 999px;
+  border-radius: 14px;
   overflow: hidden;
   background: var(--surface-soft);
   box-shadow: var(--shadow-sm);
+  margin: 0 auto;
 }
 
 .mp-cover-wrap img {
@@ -721,38 +726,40 @@ html[data-theme="dark"] .icon-moon {
   min-width: 0;
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 10px;
 }
 
 .mp-meta {
-  text-align: left;
-  line-height: 1.25;
+  text-align: center;
+  line-height: 1.3;
 }
 
 .mp-title {
-  font-size: 13.5px;
+  font-size: 14px;
   font-weight: 700;
   letter-spacing: -0.01em;
-  line-height: 1.3;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  line-height: 1.35;
+  white-space: normal;
+  overflow: visible;
+  text-overflow: clip;
+  word-break: break-word;
 }
 
 .mp-artist {
-  margin-top: 1px;
+  margin-top: 3px;
   font-size: 11.5px;
   color: var(--text-muted);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  white-space: normal;
+  overflow: visible;
+  text-overflow: clip;
+  word-break: break-word;
 }
 
 .mp-progress-row {
   margin-top: 0;
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
 }
 
 .mp-time {
@@ -800,7 +807,7 @@ html[data-theme="dark"] .icon-moon {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
+  gap: 14px;
 }
 
 .mp-btn {
@@ -881,10 +888,15 @@ html[data-theme="dark"] .icon-moon {
   }
 
   .mp-panel {
-    width: 280px;
-    max-width: calc(100vw - 66px);
-    padding: 7px 14px 7px 7px;
-    gap: 10px;
+    width: 230px;
+    max-width: calc(100vw - 56px);
+    max-height: 380px;
+    padding: 14px;
+    gap: 12px;
+  }
+
+  .mp-cover-wrap {
+    max-height: 150px;
   }
 
   .mp-toggle {
