@@ -14,5 +14,13 @@
     "message": "done bang givy",
     "img": "/testi/2.jpg",
     "date": "2026-08-06"
-  }
+  },
+  {
+  "name": "Buyer #3",
+  "product": "Scraper AM Finder",
+  "price": "Rp5.000",
+  "message": "-",
+  "img": "/testi/3.jpg",
+  "date": "2026-10-03"
+}
 ]
